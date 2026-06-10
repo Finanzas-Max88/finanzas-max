@@ -1,4 +1,8 @@
 let graficoCategorias = null;
+const btnGuardarPresupuesto =
+    document.getElementById(
+        "btnGuardarPresupuesto"
+    );
 const btnGuardarMovimiento =
     document.getElementById(
         "btnGuardarMovimiento"
@@ -123,6 +127,8 @@ await guardarMovimiento({
 
         await cargarGraficoCategorias();
 
+        await cargarPresupuestos();
+
         alert(
             "Movimiento guardado"
         );
@@ -186,6 +192,8 @@ async function iniciarSistema() {
     await cargarConsejosAhorro();
 
     await cargarGraficoCategorias();
+
+    await cargarPresupuestos();
 
 }
 
@@ -358,8 +366,7 @@ if (SpeechRecognition) {
     const recognition =
         new SpeechRecognition();
 
-    recognition.lang =
-        recognition.lang = "es-ES";
+    recognition.lang = "es-AR";
 
     recognition.interimResults =
         false;
@@ -379,31 +386,54 @@ if (SpeechRecognition) {
         }
     );
 
-    recognition.onresult =
-        (event) => {
-
-            const texto =
-                event.results[0][0]
-                    .transcript;
-
-            textoReconocido.textContent =
-                texto;
-
-        };
-
-    recognition.onerror =
+  recognition.onresult =
     (event) => {
 
-        console.error(
-            "Error reconocimiento:",
-            event.error
+        console.log(
+            "RESULTADO COMPLETO:",
+            event
+        );
+
+        const texto =
+            event.results[0][0]
+            .transcript;
+
+        console.log(
+            "TEXTO:",
+            texto
         );
 
         textoReconocido.textContent =
-            "Error: " +
-            event.error;
+            texto;
 
     };
+
+   recognition.onstart = () => {
+
+    console.log("Micrófono iniciado");
+
+};
+
+recognition.onend = () => {
+
+    console.log("Micrófono finalizado");
+
+    textoReconocido.textContent +=
+        " (finalizado)";
+
+};
+
+recognition.onerror = (event) => {
+
+    console.error(
+        "Error reconocimiento:",
+        event.error
+    );
+
+    textoReconocido.textContent =
+        "Error: " + event.error;
+
+};
 
 } else {
 
@@ -895,6 +925,63 @@ btnExportar.addEventListener(
 
     }
 );
+btnGuardarPresupuesto.addEventListener(
+    "click",
+    async () => {
+
+        const categoria =
+            document.getElementById(
+                "categoriaPresupuesto"
+            ).value;
+
+        const importe =
+            Number(
+                document.getElementById(
+                    "importePresupuesto"
+                ).value
+            );
+
+        if (
+            !importe ||
+            importe <= 0
+        ) {
+
+            alert(
+                "Ingresá un importe válido"
+            );
+
+            return;
+        }
+
+        await guardarPresupuesto({
+            categoria,
+            importe
+        });
+
+        document.getElementById(
+            "importePresupuesto"
+        ).value = "";
+
+        await cargarPresupuestos();
+
+        alert(
+            "Presupuesto guardado"
+        );
+
+    }
+);
+async function cargarPresupuestos() {
+
+    const presupuestos =
+        await obtenerPresupuestos();
+
+    const movimientos =
+        await obtenerMovimientos();
+
+    const contenedor =
+        document.getElementById(
+            "presupuestosLista"
+        );
 inputImportar.addEventListener(
     "change",
     async (event) => {
@@ -926,6 +1013,85 @@ inputImportar.addEventListener(
 
         await cargarGraficoCategorias();
 
+
+
+    contenedor.innerHTML = "";
+
+    presupuestos.forEach(
+        presupuesto => {
+
+            let gastado = 0;
+
+            movimientos.forEach(
+                movimiento => {
+
+                    if (
+                        movimiento.tipo ===
+                            "gasto" &&
+                        movimiento.categoria ===
+                            presupuesto.categoria
+                    ) {
+
+                        gastado +=
+                            movimiento.importe;
+
+                    }
+
+                }
+            );
+
+            const porcentaje =
+                Math.min(
+                    100,
+                    Math.round(
+                        (gastado /
+                            presupuesto.importe) *
+                            100
+                    )
+                );
+
+            const tarjeta =
+                document.createElement(
+                    "div"
+                );
+
+            tarjeta.style.marginBottom =
+                "15px";
+
+            tarjeta.innerHTML = `
+
+                <strong>
+                    ${presupuesto.categoria}
+                </strong>
+
+                <br>
+
+                $${gastado.toLocaleString("es-AR")}
+                de
+                $${presupuesto.importe.toLocaleString("es-AR")}
+
+                <br>
+
+                <progress
+                    value="${porcentaje}"
+                    max="100"
+                    style="width:100%">
+                </progress>
+
+                <br>
+
+                ${porcentaje}%
+
+            `;
+
+            contenedor.appendChild(
+                tarjeta
+            );
+
+        }
+    );
+
+}
         alert(
             "Backup restaurado correctamente"
         );

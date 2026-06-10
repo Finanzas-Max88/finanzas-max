@@ -22,7 +22,20 @@ function abrirDB() {
         };
 
         request.onupgradeneeded = (event) => {
+if (
+    !db.objectStoreNames.contains(
+        "presupuestos"
+    )
+) {
 
+    db.createObjectStore(
+        "presupuestos",
+        {
+            keyPath: "categoria"
+        }
+    );
+
+}
             db = event.target.result;
 
             if (!db.objectStoreNames.contains("cuentas")) {
@@ -339,6 +352,59 @@ async function importarDatos(datos) {
         resolve => {
             tx.oncomplete =
                 resolve;
+        }
+    );
+
+}
+function guardarPresupuesto(
+    presupuesto
+) {
+
+    return new Promise(
+        (resolve) => {
+
+            const tx =
+                db.transaction(
+                    "presupuestos",
+                    "readwrite"
+                );
+
+            tx.objectStore(
+                "presupuestos"
+            ).put(
+                presupuesto
+            );
+
+            tx.oncomplete =
+                () => resolve();
+
+        }
+    );
+
+}
+
+function obtenerPresupuestos() {
+
+    return new Promise(
+        (resolve) => {
+
+            const tx =
+                db.transaction(
+                    "presupuestos",
+                    "readonly"
+                );
+
+            const request =
+                tx.objectStore(
+                    "presupuestos"
+                ).getAll();
+
+            request.onsuccess =
+                () =>
+                    resolve(
+                        request.result
+                    );
+
         }
     );
 

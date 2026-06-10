@@ -36,135 +36,123 @@ console.log("INDEX CORRECTO");
 
     <div id="dashboard" class="screen hidden">
 
-        <header>
-            <h1>Finanzas Max</h1>
-        </header>
+    <header>
+        <h1>Finanzas Max</h1>
+    </header>
 
-        <section class="card">
-            <h2>Saldo Total</h2>
-            <span id="saldoTotal">$0</span>
-        </section>
+    <section class="card">
+        <h2>Saldo Total</h2>
+        <span id="saldoTotal">$0</span>
+    </section>
 
-        <section class="card">
-            <h3>ARS</h3>
-            <span id="saldoARS">$0</span>
-        </section>
+    <section class="card">
+        <h3>ARS</h3>
+        <span id="saldoARS">$0</span>
+    </section>
 
-        <section class="card">
-            <h3>USD</h3>
-            <span id="saldoUSD">USD 0</span>
-        </section>
+    <section class="card">
+        <h3>USD</h3>
+        <span id="saldoUSD">USD 0</span>
+    </section>
 
-        <section class="card">
-<section class="card">
+    <section class="card">
+        <h3>Gastos por Categoría</h3>
+        <div id="resumenCategorias"></div>
+    </section>
 
-    <h3>
-        Gastos por Categoría
+    <section class="card">
+        <h3>Gráfico de Gastos</h3>
+        <canvas id="graficoCategorias"></canvas>
+    </section>
 
-        <section class="card">
+    <section class="card">
+        <h3>Resumen Mensual</h3>
+        <div id="resumenMensual"></div>
+    </section>
 
-    <h3>
-        Gráfico de Gastos
-    </h3>
+    <section class="card">
+        <h3>💡 Consejos de Ahorro</h3>
+        <div id="consejosAhorro"></div>
+    </section>
 
-    <canvas
-        id="graficoCategorias"
-    ></canvas>
+    <section class="card">
+        <h2>🎯 Presupuestos Mensuales</h2>
 
-</section>
+        <select id="categoriaPresupuesto">
+            <option value="Alimentos">Alimentos</option>
+            <option value="Combustible">Combustible</option>
+            <option value="Servicios">Servicios</option>
+            <option value="Suscripciones">Suscripciones</option>
+            <option value="Vivienda">Vivienda</option>
+            <option value="Otros">Otros</option>
+        </select>
 
-        <section class="card">
+        <input
+            type="number"
+            id="importePresupuesto"
+            placeholder="Monto mensual"
+        >
 
-    <h3>
-        Resumen Mensual
-        <section class="card">
+        <button id="btnGuardarPresupuesto">
+            Guardar Presupuesto
+        </button>
 
-    <h3>
-        Consejos de Ahorro
-        <section class="card">
+        <div id="presupuestosLista"></div>
+    </section>
 
-    <h3>
-        Respaldo de Datos
-    </h3>
+    <section class="card">
+        <h3>Respaldo de Datos</h3>
 
-    <button id="btnExportar">
-        📤 Exportar Backup
-    </button>
+        <button id="btnExportar">
+            📤 Exportar Backup
+        </button>
 
-    <input
-        type="file"
-        id="inputImportar"
-        accept=".json"
-    >
+        <input
+            type="file"
+            id="inputImportar"
+            accept=".json"
+        >
+    </section>
 
-</section>
-    </h3>
+    <section class="card">
+        <h3>Nuevo Movimiento</h3>
 
-    <div id="consejosAhorro">
+        <select id="tipoMovimiento">
+            <option value="ingreso">Ingreso</option>
+            <option value="gasto">Gasto</option>
+        </select>
 
-    </div>
+        <select id="cuentaMovimiento"></select>
 
-</section>
-    </h3>
+        <input
+            type="number"
+            id="importeMovimiento"
+            placeholder="Importe"
+        >
 
-    <div id="resumenMensual">
+        <input
+            type="text"
+            id="descripcionMovimiento"
+            placeholder="Descripción"
+        >
 
-    </div>
+        <button id="btnVoz">
+            🎤 Registrar por Voz
+        </button>
 
-</section>
-    </h3>
+        <div id="textoReconocido"></div>
 
-    <div id="resumenCategorias">
+        <button id="btnGuardarMovimiento">
+            Guardar Movimiento
+        </button>
+    </section>
 
-    </div>
-
-</section>
-    <h3>Nuevo Movimiento</h3>
-
-    <select id="tipoMovimiento">
-        <option value="ingreso">Ingreso</option>
-        <option value="gasto">Gasto</option>
-    </select>
-
-    <select id="cuentaMovimiento">
-    </select>
-
-    <input
-        type="number"
-        id="importeMovimiento"
-        placeholder="Importe"
-    >
-
-    <input
-        type="text"
-        id="descripcionMovimiento"
-        placeholder="Descripción"
-    >
-    <button id="btnVoz">
-    🎤 Registrar por Voz
-</button>
-
-<div id="textoReconocido"></div>
-    <button id="btnGuardarMovimiento">
-        Guardar Movimiento
-    </button>
-
-</section>
-
-<section class="card">
-
-    <h3>Últimos movimientos</h3>
-
-    <ul id="movimientos">
-    </ul>
-
-</section>
-
-    </div>
+    <section class="card">
+        <h3>Últimos movimientos</h3>
+        <ul id="movimientos"></ul>
+    </section>
 
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/database.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/app.js"></script>
