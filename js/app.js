@@ -982,38 +982,8 @@ async function cargarPresupuestos() {
         document.getElementById(
             "presupuestosLista"
         );
-inputImportar.addEventListener(
-    "change",
-    async (event) => {
 
-        const archivo =
-            event.target.files[0];
-
-        if (!archivo) return;
-
-        const texto =
-            await archivo.text();
-
-        const datos =
-            JSON.parse(texto);
-
-        await importarDatos(
-            datos
-        );
-
-        await cargarDashboard();
-
-        await cargarMovimientos();
-
-        await cargarResumenCategorias();
-
-        await cargarResumenMensual();
-
-        await cargarConsejosAhorro();
-
-        await cargarGraficoCategorias();
-
-
+    if (!contenedor) return;
 
     contenedor.innerHTML = "";
 
@@ -1026,15 +996,10 @@ inputImportar.addEventListener(
                 movimiento => {
 
                     if (
-                        movimiento.tipo ===
-                            "gasto" &&
-                        movimiento.categoria ===
-                            presupuesto.categoria
+                        movimiento.tipo === "gasto" &&
+                        movimiento.categoria === presupuesto.categoria
                     ) {
-
-                        gastado +=
-                            movimiento.importe;
-
+                        gastado += movimiento.importe;
                     }
 
                 }
@@ -1046,7 +1011,7 @@ inputImportar.addEventListener(
                     Math.round(
                         (gastado /
                             presupuesto.importe) *
-                            100
+                        100
                     )
                 );
 
@@ -1059,7 +1024,6 @@ inputImportar.addEventListener(
                 "15px";
 
             tarjeta.innerHTML = `
-
                 <strong>
                     ${presupuesto.categoria}
                 </strong>
@@ -1081,7 +1045,6 @@ inputImportar.addEventListener(
                 <br>
 
                 ${porcentaje}%
-
             `;
 
             contenedor.appendChild(
@@ -1092,6 +1055,34 @@ inputImportar.addEventListener(
     );
 
 }
+
+inputImportar.addEventListener(
+    "change",
+    async (event) => {
+
+        const archivo =
+            event.target.files[0];
+
+        if (!archivo) return;
+
+        const texto =
+            await archivo.text();
+
+        const datos =
+            JSON.parse(texto);
+
+        await importarDatos(
+            datos
+        );
+
+        await cargarDashboard();
+        await cargarMovimientos();
+        await cargarResumenCategorias();
+        await cargarResumenMensual();
+        await cargarConsejosAhorro();
+        await cargarGraficoCategorias();
+        await cargarPresupuestos();
+
         alert(
             "Backup restaurado correctamente"
         );
