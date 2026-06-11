@@ -1090,8 +1090,6 @@ inputImportar.addEventListener(
 
         }
     );
-
-}
         alert(
             "Backup restaurado correctamente"
         );
