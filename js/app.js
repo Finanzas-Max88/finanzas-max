@@ -1023,29 +1023,44 @@ async function cargarPresupuestos() {
             tarjeta.style.marginBottom =
                 "15px";
 
-            tarjeta.innerHTML = `
-                <strong>
-                    ${presupuesto.categoria}
-                </strong>
+            const diferencia =
+    presupuesto.importe - gastado;
 
-                <br>
+tarjeta.innerHTML = `
+    <strong>
+        ${presupuesto.categoria}
+    </strong>
 
-                $${gastado.toLocaleString("es-AR")}
-                de
-                $${presupuesto.importe.toLocaleString("es-AR")}
+    <br>
 
-                <br>
+    Gastado:
+    $${gastado.toLocaleString("es-AR")}
 
-                <progress
-                    value="${porcentaje}"
-                    max="100"
-                    style="width:100%">
-                </progress>
+    <br>
 
-                <br>
+    Presupuesto:
+    $${presupuesto.importe.toLocaleString("es-AR")}
 
-                ${porcentaje}%
-            `;
+    <br>
+
+    ${
+        diferencia >= 0
+            ? `Disponible: $${diferencia.toLocaleString("es-AR")}`
+            : `Excedido: $${Math.abs(diferencia).toLocaleString("es-AR")}`
+    }
+
+    <br><br>
+
+    <progress
+        value="${porcentaje}"
+        max="100"
+        style="width:100%">
+    </progress>
+
+    <br>
+
+    ${porcentaje}%
+`;
 
             contenedor.appendChild(
                 tarjeta
