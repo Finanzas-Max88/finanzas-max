@@ -1015,16 +1015,27 @@ async function cargarPresupuestos() {
                     )
                 );
 
-            const tarjeta =
-                document.createElement(
-                    "div"
-                );
+          const tarjeta =
+    document.createElement(
+        "div"
+    );
 
-            tarjeta.style.marginBottom =
-                "15px";
+tarjeta.style.marginBottom =
+    "15px";
 
-            const diferencia =
+const diferencia =
     presupuesto.importe - gastado;
+
+    console.log(
+    presupuesto.categoria,
+    diferencia
+);
+
+tarjeta.style.border =
+    "2px solid red";
+
+tarjeta.style.padding =
+    "10px";
 
 tarjeta.innerHTML = `
     <strong>
