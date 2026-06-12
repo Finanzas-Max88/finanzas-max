@@ -1,4 +1,5 @@
 console.log("DATABASE.JS CARGADO");
+
 const DB_NAME = "FinanzasMaxDB";
 const DB_VERSION = 2;
 
@@ -23,47 +24,49 @@ function abrirDB() {
 
         request.onupgradeneeded = (event) => {
 
-    const database = event.target.result;
+            const database = event.target.result;
 
-    if (!database.objectStoreNames.contains("presupuestos")) {
-        database.createObjectStore(
-            "presupuestos",
-            {
-                keyPath: "categoria"
+            if (!database.objectStoreNames.contains("presupuestos")) {
+                database.createObjectStore(
+                    "presupuestos",
+                    {
+                        keyPath: "categoria"
+                    }
+                );
             }
-        );
-    }
 
-    if (!database.objectStoreNames.contains("cuentas")) {
+            if (!database.objectStoreNames.contains("cuentas")) {
 
-        const cuentasStore =
-            database.createObjectStore(
-                "cuentas",
-                {
-                    keyPath: "id",
-                    autoIncrement: true
-                }
-            );
+                const cuentasStore =
+                    database.createObjectStore(
+                        "cuentas",
+                        {
+                            keyPath: "id",
+                            autoIncrement: true
+                        }
+                    );
 
-        cuentasStore.createIndex(
-            "nombre",
-            "nombre",
-            { unique: false }
-        );
-    }
-
-    if (!database.objectStoreNames.contains("movimientos")) {
-
-        database.createObjectStore(
-            "movimientos",
-            {
-                keyPath: "id",
-                autoIncrement: true
+                cuentasStore.createIndex(
+                    "nombre",
+                    "nombre",
+                    { unique: false }
+                );
             }
-        );
-    }
-};
 
+            if (!database.objectStoreNames.contains("movimientos")) {
+
+                database.createObjectStore(
+                    "movimientos",
+                    {
+                        keyPath: "id",
+                        autoIncrement: true
+                    }
+                );
+            }
+        };
+
+    });
+}
 async function inicializarCuentas() {
 
     const cuentas = await obtenerCuentas();
@@ -132,6 +135,7 @@ function obtenerCuentas() {
         };
     });
 }
+
 function guardarMovimiento(movimiento) {
 
     return new Promise((resolve, reject) => {
@@ -184,6 +188,7 @@ function guardarMovimiento(movimiento) {
     });
 
 }
+
 function obtenerMovimientos() {
 
     return new Promise((resolve) => {
@@ -212,6 +217,7 @@ function obtenerMovimientos() {
     });
 
 }
+
 async function exportarDatos() {
 
     const cuentas =
@@ -233,9 +239,8 @@ async function exportarDatos() {
     };
 
 }
-async function importarDatos(datos) {
 
-    // CUENTAS
+async function importarDatos(datos) {
 
     const cuentasActuales =
         await obtenerCuentas();
@@ -291,8 +296,6 @@ async function importarDatos(datos) {
                 resolve;
         }
     );
-
-    // MOVIMIENTOS
 
     const movimientosActuales =
         await obtenerMovimientos();
@@ -350,6 +353,7 @@ async function importarDatos(datos) {
     );
 
 }
+
 function guardarPresupuesto(
     presupuesto
 ) {
