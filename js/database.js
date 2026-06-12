@@ -1,6 +1,6 @@
 console.log("DATABASE.JS CARGADO");
 const DB_NAME = "FinanzasMaxDB";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 let db;
 
@@ -22,53 +22,47 @@ function abrirDB() {
         };
 
         request.onupgradeneeded = (event) => {
-if (
-    !db.objectStoreNames.contains(
-        "presupuestos"
-    )
-) {
 
-    db.createObjectStore(
-        "presupuestos",
-        {
-            keyPath: "categoria"
-        }
-    );
+    const database = event.target.result;
 
-}
-            db = event.target.result;
-
-            if (!db.objectStoreNames.contains("cuentas")) {
-
-                const cuentasStore =
-                    db.createObjectStore(
-                        "cuentas",
-                        {
-                            keyPath: "id",
-                            autoIncrement: true
-                        }
-                    );
-
-                cuentasStore.createIndex(
-                    "nombre",
-                    "nombre",
-                    { unique: false }
-                );
+    if (!database.objectStoreNames.contains("presupuestos")) {
+        database.createObjectStore(
+            "presupuestos",
+            {
+                keyPath: "categoria"
             }
+        );
+    }
 
-            if (!db.objectStoreNames.contains("movimientos")) {
+    if (!database.objectStoreNames.contains("cuentas")) {
 
-                db.createObjectStore(
-                    "movimientos",
-                    {
-                        keyPath: "id",
-                        autoIncrement: true
-                    }
-                );
+        const cuentasStore =
+            database.createObjectStore(
+                "cuentas",
+                {
+                    keyPath: "id",
+                    autoIncrement: true
+                }
+            );
+
+        cuentasStore.createIndex(
+            "nombre",
+            "nombre",
+            { unique: false }
+        );
+    }
+
+    if (!database.objectStoreNames.contains("movimientos")) {
+
+        database.createObjectStore(
+            "movimientos",
+            {
+                keyPath: "id",
+                autoIncrement: true
             }
-        };
-    });
-}
+        );
+    }
+};
 
 async function inicializarCuentas() {
 
