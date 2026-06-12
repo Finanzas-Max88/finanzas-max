@@ -1026,10 +1026,6 @@ tarjeta.style.marginBottom =
 const diferencia =
     presupuesto.importe - gastado;
 
-    console.log(
-    presupuesto.categoria,
-    diferencia
-);
 
 tarjeta.style.border =
     "2px solid red";
