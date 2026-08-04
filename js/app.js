@@ -328,29 +328,42 @@ async function cargarMovimientos() {
                     ? "🟢"
                     : "🔴";
 
-            li.innerHTML = `
-                <strong>
-                    ${icono}
-                    ${movimiento.descripcion}
-                </strong>
-                <br>
+           li.innerHTML = `
+    <strong>
+        ${icono}
+        ${movimiento.descripcion}
+    </strong>
 
-                ${movimiento.cuentaNombre || "Cuenta"}
+    <br>
 
-                <br>
-                <br>
-             📂 ${movimiento.categoria || "Otros"}
+    ${movimiento.cuentaNombre || "Cuenta"}
 
-                <small>
-                    ${fecha}
-                </small>
+    <br><br>
 
-                <br>
+    📂 ${movimiento.categoria || "Otros"}
 
-                <strong>
-                    ${signo}$${movimiento.importe.toLocaleString("es-AR")}
-                </strong>
-            `;
+    <br>
+
+    <small>
+        ${fecha}
+    </small>
+
+    <br>
+
+    <strong>
+        ${signo}$${movimiento.importe.toLocaleString("es-AR")}
+    </strong>
+
+    <br><br>
+
+    <button class="btnEditar">
+        ✏️ Editar
+    </button>
+
+    <button class="btnEliminar">
+        🗑 Eliminar
+    </button>
+`;
 
             lista.appendChild(li);
 
